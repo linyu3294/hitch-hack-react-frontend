@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "dependencies": {
     "chroma-js": "^2.1.0",
-    "d3-geo": "latest",
+    "d3-geo": "^1.11.9",
     "d3-geo-projection": "^2.8.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
