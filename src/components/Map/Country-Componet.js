@@ -4,7 +4,7 @@ import {Geography, Marker, ZoomableGroup} from "react-simple-maps";
 
 
 
-class  Countries extends React.Component {
+class  CountryComponet extends React.Component {
 
     render() {
         return (
@@ -35,4 +35,4 @@ class  Countries extends React.Component {
         )
     }
 }
-export default Countries
+export default CountryComponet

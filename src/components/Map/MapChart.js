@@ -2,10 +2,11 @@ import React, {Component} from "react"
 import {ComposableMap, Geographies, Marker, ZoomableGroup} from "react-simple-maps"
 import {Spring} from 'react-spring/renderprops'
 import chroma from "chroma-js"
-import Countries from "./Countries";
+import CountryComponet from "./Country-Componet";
 import {geoTimes} from "d3-geo-projection";
 import {geoPath} from "d3-geo";
 import "../component.style.css"
+import CityComponent from "./City-Component";
 
 //World Map Json File
 const world = require("./JsonFiles/world");
@@ -32,7 +33,9 @@ class MapChart extends Component {
             detail: false,
             paths: world,
             center: [0,0],
-            zoom: 1
+            zoom: 1,
+            origin: '',
+            destination: '',
         }
 
     }
@@ -57,7 +60,7 @@ class MapChart extends Component {
         const centeroid = this.projection().invert([orgX + cx, orgY + cy])
 
 
-        const { detail } = this.state;
+        const {detail} = this.state;
         this.setState(prevState => ({
             ...prevState,
             paths: detail ? world :this.state.paths,
@@ -91,7 +94,7 @@ class MapChart extends Component {
                                     {
                                         ({geographies, projection}) =>
                                             geographies.map((geo,iter) =>
-                                                <Countries
+                                                <CountryComponet
                                                     key = {geo.properties.ISO_A3 + iter}
                                                     geo = {geo}
                                                     iter ={iter}
@@ -104,24 +107,9 @@ class MapChart extends Component {
                                 </Geographies>
                                 {this.state.detail === true &&
                                 cities.map(city =>
-                                    (city.continent === "South America" &&
-                                        <Marker key="That" coordinates={city.coordinates}>
-                                            <circle
-                                                r={5}
-                                                fill="#F00"
-                                                stroke="#fff"
-                                                strokeWidth={2}
-                                                onClick={()=>alert("You Clicked " + city.name)}
-                                            />
-                                            <text
-                                                textAnchor="top"
-                                                strokeWidth={2}
-                                                style={{fontFamily: "system-ui", fill: "#5D5A6D", fontSize: 4}}
-                                            >
-                                                {city.name}
-                                            </text>
-                                        </Marker>
-                                        )
+                                   <CityComponent
+                                    city = {city}
+                                   />
                                 )
                                 }
 
