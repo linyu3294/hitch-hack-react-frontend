@@ -4,7 +4,7 @@ import {Geography, Marker, ZoomableGroup} from "react-simple-maps";
 
 
 
-class  CountryComponet extends React.Component {
+class  CountryComponent extends React.Component {
 
     render() {
         return (
@@ -14,7 +14,7 @@ class  CountryComponet extends React.Component {
 
                 onClick={
                     (e)=>{
-                        this.props.switchPaths(this.props.geo, this.props.projection, e)
+                        this.props.switchView(this.props.geo, this.props.projection, e)
                     }
                 }
                 style={{
@@ -35,4 +35,4 @@ class  CountryComponet extends React.Component {
         )
     }
 }
-export default CountryComponet
+export default CountryComponent
