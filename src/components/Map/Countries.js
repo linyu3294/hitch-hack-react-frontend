@@ -3,26 +3,8 @@ import { geoPath } from "d3-geo"
 import {Geography, Marker, ZoomableGroup} from "react-simple-maps";
 
 
-//= ({geo, iter, projection, switchPaths, colors})
-const markers = [
-    {
-        markerOffset: -15,
-        name: "Buenos Aires",
-        coordinates: [-58.3816, -34.6037]
-    },
-];
 
 class  Countries extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    setCountryCoordinates =(projection, evt) =>{
-        //
-        // this.setState(prevState => ({
-        //     center: centeroid
-        // }))
-    }
 
     render() {
         return (
@@ -32,7 +14,7 @@ class  Countries extends React.Component {
 
                 onClick={
                     (e)=>{
-                    this.props.switchPaths(this.props.geo, this.props.projection, e)
+                        this.props.switchPaths(this.props.geo, this.props.projection, e)
                     }
                 }
                 style={{

@@ -80,41 +80,49 @@ class MapChart extends Component {
                     <div ref={wrapper => this._wrapper = wrapper} className= "container">
                         {/*<animated.div style={zoomIn}>I will fade in</animated.div>*/}
                         <ComposableMap
-                                             width={this.props.width}
-                                             height={this.props.height}
-                                             projection={this.projection()}
-                                             // className="ratio-container-content ratio-container"
+                            width={this.props.width}
+                            height={this.props.height}
+                            projection={this.projection()}
+                            // className="ratio-container-content ratio-container"
                         >
                             <ZoomableGroup   center={this.state.center}
                                              zoom={styles.zoom}>
                                 <Geographies geography={this.state.paths}>
                                     {
                                         ({geographies, projection}) =>
-                                        geographies.map((geo,iter) =>
-                                            <Countries
-                                                key = {geo.properties.ISO_A3 + iter}
-                                                geo = {geo}
-                                                iter ={iter}
-                                                projection = {projection}
-                                                colors = {colors}
-                                                switchPaths={this.switchPaths}
-                                            />
-                                        )
+                                            geographies.map((geo,iter) =>
+                                                <Countries
+                                                    key = {geo.properties.ISO_A3 + iter}
+                                                    geo = {geo}
+                                                    iter ={iter}
+                                                    projection = {projection}
+                                                    colors = {colors}
+                                                    switchPaths={this.switchPaths}
+                                                />
+                                            )
                                     }
                                 </Geographies>
                                 {this.state.detail === true &&
                                 cities.map(city =>
-                                    <Marker key="That" coordinates={city.coordinates}>
-                                        <circle r={5} fill="#F00" stroke="#fff" strokeWidth={2}/>
-                                        <text
-                                            textAnchor="middle"
-                                            strokeWidth = {2}
-                                            style={{fontFamily: "system-ui", fill: "#5D5A6D"}}
-                                        >
-                                            {city.coordinates}
-                                        </text>
-                                    </Marker>
-                                    )
+                                    (city.continent === "South America" &&
+                                        <Marker key="That" coordinates={city.coordinates}>
+                                            <circle
+                                                r={5}
+                                                fill="#F00"
+                                                stroke="#fff"
+                                                strokeWidth={2}
+                                                onClick={()=>alert("You Clicked " + city.name)}
+                                            />
+                                            <text
+                                                textAnchor="top"
+                                                strokeWidth={2}
+                                                style={{fontFamily: "system-ui", fill: "#5D5A6D", fontSize: 4}}
+                                            >
+                                                {city.name}
+                                            </text>
+                                        </Marker>
+                                        )
+                                )
                                 }
 
                             </ZoomableGroup>
