@@ -13,7 +13,8 @@ class CityComponent extends React.Component{
 
     handleCityClick = () => {
         alert("hello")
-        this.setState({cityClicked: true})}
+        this.setState({cityClicked: true})
+    }
 
 
     countRedraw = () => {

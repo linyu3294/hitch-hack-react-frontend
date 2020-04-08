@@ -1,6 +1,5 @@
 import React from "react";
-import { geoPath } from "d3-geo"
-import {Geography, Marker, ZoomableGroup} from "react-simple-maps";
+import {Geography} from "react-simple-maps";
 
 
 

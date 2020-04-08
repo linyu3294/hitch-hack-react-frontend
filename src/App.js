@@ -7,16 +7,19 @@ import mapReducer from "./reducers/mapReducer";
 import {Provider} from "react-redux";
 
 
+const rootReducer = combineReducers({
+    world: mapReducer
+});
 
-const store = createStore(mapReducer);
+const store = createStore(rootReducer);
 
 function App() {
     return (
         <Provider store = {store}>
-        <div>
-             <MapChart
-             />
-        </div>
+            <div>
+                <MapChart
+                />
+            </div>
         </Provider>
     );
 }
