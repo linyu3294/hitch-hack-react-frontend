@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import { connect } from "react-redux";
-import {ComposableMap, Geographies, ZoomableGroup} from "react-simple-maps"
+import {ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps"
 import {Spring} from 'react-spring/renderprops'
 import chroma from "chroma-js"
 import CountryComponent from "./Country-Component"
@@ -8,12 +8,8 @@ import {geoTimes} from "d3-geo-projection"
 import {geoPath} from "d3-geo"
 import "../component.style.css"
 import CityComponent from "./City-Component"
+import { Line } from "react-simple-maps"
 
-
-
-//World Map Json File
-const cities = require("./JsonFiles/cities")
-const world = require("./JsonFiles/world")
 
 //Randomized color scheme that will casted to each country
 const colorScale = chroma.brewer.Pastel2.slice(1)
@@ -26,8 +22,8 @@ const colors = Array(180)
 
 class MapChart extends Component {
     constructor(props) {
-        super(props);
-        this.state = this.props.world;
+        super(props)
+        this.state = this.props.world
     }
 
     projection() {
@@ -36,17 +32,8 @@ class MapChart extends Component {
             .scale(180)
     }
 
-
-
-
-
-
-    // ZoomControl=()=> {
-    //     (this.props) = useSpring({zoom: 2, from: {zoom: 1}})
-    // }
     switchView = (geo, projection, evt) => {
         // alert(geo.properties.ISO_A3)
-
         const gp = geoPath().projection(projection)
         const dim = evt.target.getBoundingClientRect()
         const cx = evt.clientX - dim.left
@@ -54,21 +41,28 @@ class MapChart extends Component {
         const [orgX, orgY] = gp.bounds(geo)[0]
         const centeroid = this.projection().invert([orgX + cx, orgY + cy])
 
-
         const {detail} = this.state;
         this.setState(prevState => ({
             ...prevState,
-            paths: detail ? world : this.state.paths,
+            paths: detail ? this.state.worldMap : this.state.paths,
             center: detail ? [0, 0] : centeroid,
             zoom: detail ? 1 : 6,
             detail: !detail
-        }));
-    };
+        }))
+    }
+
+    handleCityClick = (cityName) => {
+        this.setState(prevState => ({
+            ...prevState,
+            origin: prevState.redrawCounter ?  this.state.origin : cityName,
+            destination:  prevState.redrawCounter ? cityName: "",
+            redrawCounter: !prevState.redrawCounter,
+        }))
+    }
+
 
     render() {
-        console.log(this.state)
         return (
-
             <Spring
                 from={{zoom: 2}}
                 to={{zoom: this.state.zoom}}
@@ -76,12 +70,10 @@ class MapChart extends Component {
             >
                 {styles => (
                     <div ref={wrapper => this._wrapper = wrapper} className="container">
-                        {/*<animated.div style={zoomIn}>I will fade in</animated.div>*/}
                         <ComposableMap
                             width={this.props.width}
                             height={this.props.height}
                             projection={this.projection()}
-                            // className="ratio-container-content ratio-container"
                         >
                             <ZoomableGroup center={this.state.center}
                                            zoom={styles.zoom}>
@@ -96,21 +88,28 @@ class MapChart extends Component {
                                                     projection={projection}
                                                     colors={colors}
                                                     switchView={this.switchView}
-                                                    count = {this.count}
+                                                    detail = {this.state.detail}
                                                 />
                                             )
                                     }
                                 </Geographies>
                                 {this.state.detail === true &&
-                                cities.map(city =>
+                                this.state.cities.map(city =>
                                     <CityComponent
                                         city = {city}
                                         origin = {this.state.origin}
                                         destination = {this.state.destination}
-
+                                        redrawCounter = {this.state.redrawCounter}
+                                        handleCityClick = {this.handleCityClick}
                                     />
-                                )
-                                }
+                                )}
+                                <Line
+                                    from={this.state.origin}
+                                    to={this.state.destination}
+                                    stroke="#FF5533"
+                                    strokeWidth={2}
+                                    strokeLinecap="round"
+                                />
 
                             </ZoomableGroup>
                         </ComposableMap>

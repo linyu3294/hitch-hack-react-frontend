@@ -1,18 +1,25 @@
 import React from "react";
-import {Geography} from "react-simple-maps";
+import {Geography, Marker, ZoomableGroup} from "react-simple-maps";
+import {connect} from "react-redux";
+import CityComponent from "./City-Component";
 
 
 
 class  CountryComponent extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state= this.props.country
+    }
+    componentDidMount() {
+    }
 
     render() {
         return (
             <Geography
                 geography={this.props.geo}
-                // projection={this.props.projection}
 
                 onClick={
-                    (e)=>{
+                    (e) => {
                         this.props.switchView(this.props.geo, this.props.projection, e)
                     }
                 }
@@ -34,4 +41,10 @@ class  CountryComponent extends React.Component {
         )
     }
 }
-export default CountryComponent
+const stateToPropertyMapper = state => {
+    return {
+        country: state.country.country
+    }
+}
+
+export default connect(stateToPropertyMapper) (CountryComponent)
