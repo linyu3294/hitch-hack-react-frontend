@@ -1,14 +1,14 @@
 import React, {Component} from "react"
 import { connect } from "react-redux";
-import {ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps"
-import {Spring} from 'react-spring/renderprops'
-import chroma from "chroma-js"
-import CountryComponent from "./Country-Component"
+import {Annotation, ComposableMap, Geographies, Geography, ZoomableGroup} from "react-simple-maps"
 import {geoTimes} from "d3-geo-projection"
 import {geoPath} from "d3-geo"
-import "../component.style.css"
-import CityComponent from "./City-Component"
-import { Line } from "react-simple-maps"
+import {Spring} from 'react-spring/renderprops'
+import chroma from "chroma-js"
+import CountryComponent from "../components/Map/Country-Component"
+import CityComponent from "../components/Map/City-Component"
+import FlightComponent from "../components/Routes/Flight-Component";
+import mapService from "../services/mapService";
 
 
 //Randomized color scheme that will casted to each country
@@ -24,6 +24,12 @@ class MapChart extends Component {
     constructor(props) {
         super(props)
         this.state = this.props.world
+    }
+
+    componentDidUpdate(state) {
+        if (this.state.origin !== this.state.destination){
+            mapService.getDirectRouteCost(this.state.origin, this.state.destination)
+        }
     }
 
     projection() {
@@ -44,18 +50,18 @@ class MapChart extends Component {
         const {detail} = this.state;
         this.setState(prevState => ({
             ...prevState,
-            paths: detail ? this.state.worldMap : this.state.paths,
+            // paths: detail ? this.state.worldMap : this.state.paths,
             center: detail ? [0, 0] : centeroid,
             zoom: detail ? 1 : 6,
             detail: !detail
         }))
     }
 
-    handleCityClick = (cityName) => {
+    handleCityClick = (city) => {
         this.setState(prevState => ({
             ...prevState,
-            origin: prevState.redrawCounter ?  this.state.origin : cityName,
-            destination:  prevState.redrawCounter ? cityName: "",
+            origin: prevState.redrawCounter ?  this.state.origin : city,
+            destination:  prevState.redrawCounter ? city: city,
             redrawCounter: !prevState.redrawCounter,
         }))
     }
@@ -94,23 +100,23 @@ class MapChart extends Component {
                                     }
                                 </Geographies>
                                 {this.state.detail === true &&
-                                this.state.cities.map(city =>
+                                    this.state.cities.map(city =>
                                     <CityComponent
+                                        key = {city.name}
                                         city = {city}
-                                        origin = {this.state.origin}
-                                        destination = {this.state.destination}
-                                        redrawCounter = {this.state.redrawCounter}
+                                        origin = {this.props.origin}
+                                        destination = {this.props.destination}
+                                        redrawCounter = {this.props.redrawCounter}
                                         handleCityClick = {this.handleCityClick}
+                                        getDirect
                                     />
                                 )}
-                                <Line
-                                    from={this.state.origin}
-                                    to={this.state.destination}
-                                    stroke="#FF5533"
-                                    strokeWidth={2}
-                                    strokeLinecap="round"
-                                />
-
+                                {
+                                    <FlightComponent
+                                        origin = {this.state.origin}
+                                        destination = {this.state.destination}
+                                    />
+                                }
                             </ZoomableGroup>
                         </ComposableMap>
                     </div>

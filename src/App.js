@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import './style/style.css'
-import MapChart from "./components/Map/MapChart";
+import MapChart from "./container/MapChart";
 import {combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
 import mapReducer from "./reducers/mapReducer";

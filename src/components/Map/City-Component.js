@@ -7,11 +7,10 @@ class CityComponent extends React.Component{
     }
 
 
-
     render() {
         return (
             this.props.city.continent === "South America" &&
-            <Marker key="That" coordinates={this.props.city.coordinates}>
+            <Marker coordinates={this.props.city.coordinates}>
                 <circle
                     r={5}
                     fill="#F00"
@@ -19,7 +18,7 @@ class CityComponent extends React.Component{
                     strokeWidth={2}
                     onClick={
                         () => {
-                            this.props.handleCityClick(this.props.city.coordinates)
+                            this.props.handleCityClick(this.props.city)
                         }
                     }/>
 
