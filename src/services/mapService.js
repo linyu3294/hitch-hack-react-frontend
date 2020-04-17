@@ -1,19 +1,20 @@
 const baseUrl = 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0'
 
 export const getDirectRouteCost = (originCity, destinationCity) => {
-
-    const country = originCity.countryAlias
+    console.log ("origin ", originCity)
+    console.log ("destination ", destinationCity)
+    const country = 'US'
     const currency = 'USD'
-    const locale = 'en-US'
+    const locale = 'en-GB'
     const origin = originCity.skyId
     const destination = destinationCity.skyId
-    const outboundDate = '2020-09-01'
-    const inboundPartialDate ='2020-12-04'
+    const outboundDate = 'anytime'
+    const inboundPartialDate ='anytime'
     fetch(
         `${baseUrl}/${country}/${currency}/${locale}
                          /${origin}/${destination}
                          /${outboundDate}?inboundpartialdate=${inboundPartialDate}`
-        // 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=Lima'
+        //'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=La Paz'
     ,
         {
         "method": "GET",
