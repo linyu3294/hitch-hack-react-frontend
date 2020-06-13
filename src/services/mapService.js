@@ -30,6 +30,25 @@ export const getDirectRouteCost = (originCity, destinationCity) => {
         });
 }
 
+export const createPriceReqSession = () => {
+        fetch(
+            'http://partners.api.skyscanner.net/apiservices/pricing/v1.0'
+            ,
+            {
+                "method": "POST",
+                "headers": {
+                   "Content-Type": "application/x-www-form-urlencoded",
+                    "Forwarded-For" : "73.219.72.97"
+                }
+            })
+            .then(response => response.json())
+            .then(actualResponse =>console.log(actualResponse))
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
 export default {
+    createPriceReqSession,
     getDirectRouteCost
 }

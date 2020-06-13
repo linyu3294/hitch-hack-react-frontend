@@ -28,7 +28,8 @@ class MapChart extends Component {
 
     componentDidUpdate(state) {
         if (this.state.origin !== this.state.destination){
-            mapService.getDirectRouteCost(this.state.origin, this.state.destination)
+            // mapService.getDirectRouteCost(this.state.origin, this.state.destination)
+            mapService.createPriceReqSession()
         }
     }
 
@@ -108,7 +109,6 @@ class MapChart extends Component {
                                         destination = {this.props.destination}
                                         redrawCounter = {this.props.redrawCounter}
                                         handleCityClick = {this.handleCityClick}
-                                        getDirect
                                     />
                                 )}
                                 {
